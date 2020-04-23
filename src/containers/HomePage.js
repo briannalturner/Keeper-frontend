@@ -1,9 +1,15 @@
 import React from 'react'
+import QuoteContainer from '../components/QuoteContainer'
+import UserDashboard from '../components/UserDashboard'
 
 class HomePage extends React.Component {
     render() {
         return (
-            <div>Home Page</div>
+            <div>
+                <div>Home Page</div>
+                <QuoteContainer />
+                <UserDashboard />
+            </div>
         )
     }
 }

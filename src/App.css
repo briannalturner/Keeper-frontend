@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  background-color: #222222;
+  color: whitesmoke;
+  /* color: #DAEF47 */
+}
+
+.nav {
+  min-height: 53px;
+}
+
+.fivepx {
+  margin: 5px;
+}
