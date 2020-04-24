@@ -18,7 +18,8 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      users: []
+      users: [],
+      currentUser: null
     }
   }
 
@@ -30,15 +31,26 @@ class App extends React.Component {
     }))
   }
 
+  login = (json) => {
+    this.setState({
+      currentUser: json
+    })
+  }
+
+  logout = () => {
+    this.setState({
+      currentUser: null
+    })
+  }
 
   render() {
     return (
       <div className="App">
-          <Navbar />
+          <Navbar currentUser={this.state.currentUser} logout={this.logout} />
           <Switch>
             <Route exact path="/home" render={() => <HomePage/>}/>
-            <Route exact path="/login" render={() => <LoginPage/>}/>
-            <Route exact path="/signup" render={() => <NewAccountPage/>}/>
+            <Route exact path="/login" render={() => <LoginPage login={this.login}/>}/>
+            <Route exact path="/signup" render={() => <NewAccountPage login={this.login} currentUser={this.state.currentUser}/>}/>
             <Route exact path="/profile" render={() => <ProfilePage/>}/>
             <Route exact path="/profile/edit" render={() => <EditAccountPage/>}/>
             <Route exact path="/meet" render={() => <MeetPage users={this.state.users}/>}/>

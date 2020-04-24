@@ -13,8 +13,8 @@ class MeetPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="ui cards">
+            <div className="margins">
+                <div className="card-columns">
                     {this.generateMeetCards()}
                 </div>
             </div>

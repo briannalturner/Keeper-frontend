@@ -39,9 +39,16 @@
 
 body {
   background-color: #222222;
-  color: whitesmoke;
+  color: rgb(39, 39, 39);
   /* color: #DAEF47 */
 }
+
+html {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  }
 
 .nav {
   min-height: 53px;
@@ -49,4 +56,67 @@ body {
 
 .fivepx {
   margin: 5px;
+}
+
+.card {
+  background-color: rgb(255, 255, 234);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.margins {
+  margin: 3%;
+}
+
+.white-text {
+  color: whitesmoke;
+}
+
+#profile-picture {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.login-card {
+  width: 500px;
+  height: 300px;
+  margin-left: auto;
+  margin-right:auto;
+  margin-top: 3%;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.side-margins {
+  margin-top: 3%;
+  margin-bottom: 3%;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.ties-background {
+  background: url('./pictures/ties.jpg');
+  background-size: 100%;
+  width: 100%;
+  height: 100%;
+  background-attachment: fixed;
+}
+
+.slytherin-background {
+  background: url('./pictures/slytherin.jpg');
+  background-size: 100%;
+  width: 100%;
+  height: 100%;
+  background-attachment: fixed;
+}
+
+.transbox {
+  margin: 30px;
+  background-color: #00000070;
+  border: 1px solid black;
+  padding: 2%;
 }
