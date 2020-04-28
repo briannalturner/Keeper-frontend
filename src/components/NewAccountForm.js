@@ -64,8 +64,7 @@ class NewAccountForm extends React.Component {
                 console.error('Error:', error);
             })
             .then(json => {
-                this.props.login(json)
-                window.location = '/profile'
+                this.props.login({username: this.state.username, password: this.state.password})
             })
         }
     }
@@ -100,6 +99,7 @@ class NewAccountForm extends React.Component {
             image: btoa(binaryString)
         })
         const preview = document.getElementById('profile-picture')
+        console.log(btoa(binaryString))
         preview.src = "data:image/png;base64," + btoa(binaryString)
     }
 

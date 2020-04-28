@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Navbar from './components/Navbar'
 import HomePage from './containers/HomePage'
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import LoginPage from './containers/LoginPage'
 import NewAccountPage from './containers/NewAccountPage'
 import ProfilePage from './containers/ProfilePage'
@@ -29,18 +29,88 @@ class App extends React.Component {
     .then(json => this.setState({
       users: json
     }))
+
+    if (localStorage.getItem('jwt')) {
+      fetch("http://localhost:3000/profile", {
+        headers: {
+          "Authentication": localStorage.getItem('jwt')
+        }
+      })
+      .then(resp => resp.json())
+      .then(json => this.setState({currentUser: json}))
+    }
   }
 
   login = (json) => {
-    this.setState({
-      currentUser: json
+    let username = json.username
+    let password = json.password
+    let payload = {username: username, password: password}
+    fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(resp => resp.json())
+    .then(json => {
+      localStorage.setItem('jwt', json.token)
+      this.setState({
+        currentUser: json.user
+      })
+      window.location = "/profile"
     })
   }
 
   logout = () => {
+    localStorage.clear()
     this.setState({
       currentUser: null
     })
+  }
+
+  fetchUser = (e) => {
+    e.preventDefault()
+    let username = e.target.username.value
+    let password = e.target.password.value
+    let payload = {username: username, password: password}
+    fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(resp => resp.json())
+    .then(json => {
+      localStorage.setItem('jwt', json.token)
+      this.setState({
+        currentUser: json.user
+      })
+    })
+  }
+
+  newLike = (e, likedUser) => {
+    let payload = {likee_id: likedUser.id, liker_id: this.state.currentUser.id}
+    fetch("http://localhost:3000/likes", {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(resp => resp.json())
+    .then(json => console.log(json))
+
+    let btn = document.createElement('div')
+    btn.innerHTML = `
+      <button type="button" class="btn btn-outline-danger btn-lg" disabled>Liked</button>
+    `
+    e.target.parentNode.append(btn)
+    e.target.remove()
   }
 
   render() {
@@ -48,15 +118,26 @@ class App extends React.Component {
       <div className="App">
           <Navbar currentUser={this.state.currentUser} logout={this.logout} />
           <Switch>
-            <Route exact path="/home" render={() => <HomePage/>}/>
-            <Route exact path="/login" render={() => <LoginPage login={this.login}/>}/>
+            <Route exact path="/" render={() => <HomePage/>}/>
+            <Route exact path="/login" render={() => (
+              this.state.currentUser ? <Redirect to="/profile"/> :
+              <LoginPage login={this.fetchUser}/>)}
+            />
             <Route exact path="/signup" render={() => <NewAccountPage login={this.login} currentUser={this.state.currentUser}/>}/>
-            <Route exact path="/profile" render={() => <ProfilePage/>}/>
+            <Route exact path="/profile" render={() => (
+              this.state.currentUser ? 
+              <ProfilePage user={this.state.currentUser}/> :
+              <Redirect to="/login"/>
+            )}/>
             <Route exact path="/profile/edit" render={() => <EditAccountPage/>}/>
             <Route exact path="/meet" render={() => <MeetPage users={this.state.users}/>}/>
-            <Route exact path="/profile/matches" render={() => <MatchesPage/>}/>
-            <Route exact path="/profile/inbox" render={() => <Inbox/>}/>
-            <Route exact path="/user/:id" render={() => <UserContainer/>}/>
+            <Route exact path="/profile/matches" render={() => <MatchesPage />}/>
+            <Route exact path="/profile/inbox" render={() => <Inbox user={this.state.currentUser}/> }/>
+            <Route exact path="/user/:id" render={(props) => {
+              let userId = parseInt(props.location.pathname.split("/")[2])
+              let user = this.state.users.find(u => u.id === userId)
+              return <UserContainer user={user} currentUser={this.state.currentUser} newLike={this.newLike}/>
+            }}/>
   
           </Switch>
       </div>

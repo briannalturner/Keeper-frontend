@@ -5,12 +5,12 @@ class LoginForm extends React.Component {
     render() {
         return (
             <div>
-                <form>
+                <form onSubmit={(e) => this.props.login(e)}>
                     <div className="form-group">
                         <label>Username</label>
-                        <input className="form-control" placeholder="Username"/>
+                        <input name="username" className="form-control" placeholder="Username"/>
                         <label>Password</label>
-                        <input className="form-control" placeholder="Password"/><br></br>
+                        <input className="form-control" name="password" type="password" placeholder="Password"/><br></br>
                         <button className="btn btn-outline-dark">Login</button>
                     </div>
                 </form>

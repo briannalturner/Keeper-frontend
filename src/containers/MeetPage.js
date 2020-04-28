@@ -11,10 +11,15 @@ class MeetPage extends React.Component {
         }
     }
 
+    componentDidMount() {
+        let html = document.getElementsByTagName('body')[0]
+        html.className = "profile-page"
+    }
+
     generateMeetCards = () => {
         let cardArray = []
         this.props.users.filter(user => {
-            let full_name = user.first_name + " " + user.last_name
+            let full_name = user.first_name.toLowerCase() + " " + user.last_name.toLowerCase()
             return full_name.includes(this.state.searchTerm)
         }).forEach(user => {
             cardArray.push(<MeetCard user={user}/>)
@@ -23,8 +28,10 @@ class MeetPage extends React.Component {
     }
 
     onChange = (e) => {
+        console.log(e.target.value)
+        let searchTerm = e.target.value.toLowerCase()
         this.setState({
-            searchTerm: e.target.value
+            searchTerm: searchTerm
         })
     }
 

@@ -12,7 +12,7 @@ class LoginPage extends React.Component {
         return (
             <div className="login-page card login-card">
                 <h1>Login</h1>
-                <a href="/signup">or create an account</a>
+                <a href="/signup">create an account</a>
                 <LoginForm login={this.props.login}/>
             </div>
         )
