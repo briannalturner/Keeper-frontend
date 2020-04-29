@@ -1,10 +1,11 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 class Navbar extends React.Component {
     render() {
         return (
             <div>
-                <nav style={{backgroundColor: "rgb(218, 218, 193)"}} className="navbar navbar-expand-lg navbar-light fixed-top">
+                <nav style={{backgroundColor: "rgb(246, 243, 250)"}} className="navbar navbar-expand-lg navbar-light fixed-top">
                     <a className="navbar-brand" href="/">
                         <img src="../../logo.png" width="50" height="50" alt="logo"/>
                     </a> 
@@ -26,7 +27,7 @@ class Navbar extends React.Component {
                             }
                         </ul>
                         <span className="navbar-text">
-                            <a href="/profile">My Profile</a>
+                            <Link to="/profile">My Profile</Link>
                         </span>
                     </div>
                 </nav>

@@ -37,7 +37,9 @@ class App extends React.Component {
         }
       })
       .then(resp => resp.json())
-      .then(json => this.setState({currentUser: json}))
+      .then(json => {
+        this.setState({currentUser: json})
+      })
     }
   }
 
@@ -86,14 +88,16 @@ class App extends React.Component {
     .then(resp => resp.json())
     .then(json => {
       localStorage.setItem('jwt', json.token)
+      console.log("json", json.user[0])
       this.setState({
-        currentUser: json.user
+        currentUser: json.user[0]
       })
+      window.location = "/profile"
     })
   }
 
   newLike = (e, likedUser) => {
-    let payload = {likee_id: likedUser.id, liker_id: this.state.currentUser.id}
+    let payload = {likee_id: likedUser.id, liker_id: this.state.currentUser.user_data.id}
     fetch("http://localhost:3000/likes", {
       method: "POST",
       headers: {
@@ -107,10 +111,26 @@ class App extends React.Component {
 
     let btn = document.createElement('div')
     btn.innerHTML = `
-      <button type="button" class="btn btn-outline-danger btn-lg" disabled>Liked</button>
+      <button type="button" class="btn btn-outline-danger float-left btn-lg" disabled>Liked</button>
     `
+    console.log(e.target.parentNode.parentNode)
     e.target.parentNode.append(btn)
     e.target.remove()
+  }
+
+  deleteLike = (e, likedUser) => {
+    e.preventDefault()
+    let payload = {likee_id: likedUser.id, liker_id: this.state.currentUser.user_data.id}
+    fetch("http://localhost:3000/likes", {
+      method: "DELETE",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(resp => resp.json())
+    .then(json => console.log(json))
   }
 
   render() {
@@ -131,7 +151,7 @@ class App extends React.Component {
             )}/>
             <Route exact path="/profile/edit" render={() => <EditAccountPage/>}/>
             <Route exact path="/meet" render={() => <MeetPage users={this.state.users}/>}/>
-            <Route exact path="/profile/matches" render={() => <MatchesPage />}/>
+            <Route exact path="/profile/matches" render={() => <MatchesPage currentUser={this.state.currentUser} deleteLike={this.deleteLike} />}/>
             <Route exact path="/profile/inbox" render={() => <Inbox user={this.state.currentUser}/> }/>
             <Route exact path="/user/:id" render={(props) => {
               let userId = parseInt(props.location.pathname.split("/")[2])
@@ -144,5 +164,6 @@ class App extends React.Component {
   );
   }
 }
+
 
 export default App;

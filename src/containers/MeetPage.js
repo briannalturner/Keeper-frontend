@@ -22,13 +22,12 @@ class MeetPage extends React.Component {
             let full_name = user.first_name.toLowerCase() + " " + user.last_name.toLowerCase()
             return full_name.includes(this.state.searchTerm)
         }).forEach(user => {
-            cardArray.push(<MeetCard user={user}/>)
+            cardArray.push(<MeetCard key={user.id} user={user}/>)
         })
         return cardArray
     }
 
     onChange = (e) => {
-        console.log(e.target.value)
         let searchTerm = e.target.value.toLowerCase()
         this.setState({
             searchTerm: searchTerm

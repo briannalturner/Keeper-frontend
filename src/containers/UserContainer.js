@@ -11,7 +11,7 @@ class UserContainer extends React.Component {
         return (
             <div className="white-text margins">
                 {
-                    this.props.user ? 
+                    this.props.user && this.props.currentUser ? 
                     <div className="">
                         <br></br>
                         <img alt="" className="float-left rounded profile-main-pic fivepx" src={"data:image/png;base64," + this.props.user.image}/>
@@ -25,7 +25,7 @@ class UserContainer extends React.Component {
                         </div>
                     </div> :
                     null
-                }
+                } 
             </div>
         )
     }
