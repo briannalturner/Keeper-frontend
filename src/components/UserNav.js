@@ -6,7 +6,7 @@ class UserNav extends React.Component {
         return (
             <nav className="navbar fixed-bottom navbar-light bg-light">
                 <span>
-                    <a href="/profile/inbox">
+                    <a href="/inbox">
                         <button className="btn btn-outline-danger btn-lg fivepx">Inbox</button>
                     </a>
                     <a href="/profile/matches">

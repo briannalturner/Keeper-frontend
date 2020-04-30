@@ -11,6 +11,7 @@ import MeetPage from './containers/MeetPage'
 import MatchesPage from './containers/MatchesPage'
 import Inbox from './containers/Inbox'
 import UserContainer from './containers/UserContainer'
+import ActiveConversation from './components/ActiveConversation'
 
 
 class App extends React.Component {
@@ -19,7 +20,13 @@ class App extends React.Component {
     super()
     this.state = {
       users: [],
-      currentUser: null
+      currentUser: null,
+      allRooms: [],
+      currentRoom: {
+        room: {},
+        users: [],
+        messages: {}
+      }
     }
   }
 
@@ -133,6 +140,31 @@ class App extends React.Component {
     .then(json => console.log(json))
   }
 
+  getRoomData = (id) => {
+    fetch(`http://localhost:3000/rooms/${id}`)
+    .then(resp => resp.json())
+    .then(json => {
+      console.log("json",json)
+      // this.setState({
+      //   currentRoom: {
+      //     room: json.data,
+      //     users: json.data.attributes.users,
+      //     messages: json.data.attributes.messages
+      //   }
+      // })
+    })
+  }
+
+  updateAppStateRoom = (newRoom) => {
+    this.setState({
+      currentRoom: {
+        room: newRoom.room.data,
+        users: newRoom.users,
+        message: newRoom.messages
+      }
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -152,7 +184,19 @@ class App extends React.Component {
             <Route exact path="/profile/edit" render={() => <EditAccountPage/>}/>
             <Route exact path="/meet" render={() => <MeetPage users={this.state.users}/>}/>
             <Route exact path="/profile/matches" render={() => <MatchesPage currentUser={this.state.currentUser} deleteLike={this.deleteLike} />}/>
-            <Route exact path="/profile/inbox" render={() => <Inbox user={this.state.currentUser}/> }/>
+            <Route exact path="/inbox/:id" render={() => (
+                this.state.currentUser ?
+                  <ActiveConversation 
+                    cableApp={this.props.cableApp}
+                    updateApp={this.updateAppStateRoom}
+                    getRoomData={this.getRoomData}
+                    roomData={this.state.currentRoom}
+                    currentUser={this.state.currentUser}
+                  /> :
+                null
+              )
+            }/>
+            <Route exact path="/inbox" render={() => <Inbox user={this.state.currentUser}/> }/>
             <Route exact path="/user/:id" render={(props) => {
               let userId = parseInt(props.location.pathname.split("/")[2])
               let user = this.state.users.find(u => u.id === userId)
