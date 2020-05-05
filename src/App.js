@@ -167,7 +167,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App font-weight-light">
           <Navbar currentUser={this.state.currentUser} logout={this.logout} />
           <Switch>
             <Route exact path="/" render={() => <HomePage/>}/>
@@ -181,7 +181,7 @@ class App extends React.Component {
               <ProfilePage user={this.state.currentUser}/> :
               <Redirect to="/login"/>
             )}/>
-            <Route exact path="/profile/edit" render={() => <EditAccountPage/>}/>
+            <Route exact path="/profile/edit" render={() => <EditAccountPage user={this.state.currentUser}/>}/>
             <Route exact path="/meet" render={() => <MeetPage users={this.state.users}/>}/>
             <Route exact path="/profile/matches" render={() => <MatchesPage currentUser={this.state.currentUser} deleteLike={this.deleteLike} />}/>
             <Route exact path="/inbox/:id" render={() => (

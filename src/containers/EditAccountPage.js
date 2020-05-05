@@ -1,4 +1,5 @@
 import React from 'react'
+import EditAccountForm from '../components/EditAccountForm'
 
 class EditAccountPage extends React.Component {
 
@@ -9,7 +10,7 @@ class EditAccountPage extends React.Component {
 
     render() {
         return(
-            <div className="white-text">Edit Account Page</div>
+            <div className="white-text margins"><EditAccountForm user={this.props.user}/></div>
         )
     }
 }
