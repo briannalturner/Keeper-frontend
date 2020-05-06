@@ -144,21 +144,23 @@ class App extends React.Component {
     fetch(`http://localhost:3000/rooms/${id}`)
     .then(resp => resp.json())
     .then(json => {
-      console.log("json",json)
-      // this.setState({
-      //   currentRoom: {
-      //     room: json.data,
-      //     users: json.data.attributes.users,
-      //     messages: json.data.attributes.messages
-      //   }
-      // })
+      // console.log("json",json)
+      // let users = json
+      this.setState({
+        currentRoom: {
+          room: json.room,
+          users: json.users,
+          messages: json.messages
+        }
+      })
     })
   }
 
   updateAppStateRoom = (newRoom) => {
+    console.log(newRoom)
     this.setState({
       currentRoom: {
-        room: newRoom.room.data,
+        room: newRoom.room,
         users: newRoom.users,
         message: newRoom.messages
       }

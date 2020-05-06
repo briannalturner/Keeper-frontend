@@ -2,7 +2,7 @@ import React from 'react'
 
 class RoomWebSocket extends React.Component {
     componentDidMount() {
-        // console.log(this.props)
+        // console.log(this.props.currentUser)
         if(this.props.currentUser) {
             // console.log(window.location.href.match(/\d+$/)[0])
             this.props.getRoomData(window.location.href.match(/\d+$/)[0])
@@ -13,6 +13,7 @@ class RoomWebSocket extends React.Component {
             },
             {
                 recieved: (updatedRoom) => {
+                    console.log("updatedroom",updatedRoom)
                     this.props.updateApp(updatedRoom)
                 }
             })

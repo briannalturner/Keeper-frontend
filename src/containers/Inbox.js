@@ -8,11 +8,19 @@ class Inbox extends React.Component {
     }
 
     messageCards = () => {
+        let arr = []
         if (this.props.user) {
             this.props.user.rooms.forEach(room => {
-                console.log(room.messages[room.messages.length - 1])
+                let lastMessage = room.messages[room.messages.length - 1].message
+                arr.push(
+                    <div className="card clickable fivepx" onClick={() => window.location=`/inbox/${room.id}`} key={room.id}>
+                        <h4 className="text-left">{room.recipient.first_name + " " + room.recipient.last_name}</h4>
+                        <p className="text-left">{lastMessage}</p>
+                    </div>
+                )
             })
         }
+        return arr
     }
 
     render() {
@@ -20,13 +28,10 @@ class Inbox extends React.Component {
         return (
             <div className="margins">
                 <h1 className="text-left white-text">Inbox</h1>
-                <div className="container"> 
-                    <div className="row">
-                        <div className="col card fivepx">
-                            <h4>All Conversations</h4>
-                            <div>
-                                {this.messageCards()}
-                            </div>
+                <div className=""> 
+                    <div className="">
+                        <div>
+                            {this.messageCards()}
                         </div>
                     </div>
                 </div> 

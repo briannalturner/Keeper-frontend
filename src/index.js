@@ -6,9 +6,6 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import actionCable from 'actioncable'
 
-const CableApp = {}
-CableApp.cable = actionCable.createConsumer('ws://localhost:3000/cable')
-
 ReactDOM.render((
   <Router>
     <Route path="/" render={() => <App cableApp={CableApp}/>} />
