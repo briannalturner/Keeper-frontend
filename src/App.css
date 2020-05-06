@@ -40,6 +40,9 @@
 body {
   background-color: #222222;
   color: rgb(39, 39, 39);
+  font-family: arvo, serif;
+font-style: normal;
+font-weight: 400;
   /* color: #DAEF47 */
 }
 
@@ -72,6 +75,10 @@ html {
 
 .white-text {
   color: black;
+}
+
+.white {
+  color: whitesmoke;
 }
 
 #profile-picture {
@@ -145,4 +152,8 @@ html {
 
 .tenpx {
   margin: 10px;
+}
+
+.yellow-text {
+  color: rgb(255, 214, 91);
 }

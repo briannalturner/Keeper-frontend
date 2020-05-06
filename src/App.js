@@ -12,6 +12,7 @@ import MatchesPage from './containers/MatchesPage'
 import Inbox from './containers/Inbox'
 import UserContainer from './containers/UserContainer'
 import ActiveConversation from './components/ActiveConversation'
+import NotFound from './components/NotFound'
 
 
 class App extends React.Component {
@@ -19,24 +20,11 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      users: [],
       currentUser: null,
-      allRooms: [],
-      currentRoom: {
-        room: {},
-        users: [],
-        messages: {}
-      }
     }
   }
 
   componentDidMount() {
-    fetch("http://localhost:3000/users")
-    .then(resp => resp.json())
-    .then(json => this.setState({
-      users: json
-    }))
-
     if (localStorage.getItem('jwt')) {
       fetch("http://localhost:3000/profile", {
         headers: {
@@ -140,31 +128,26 @@ class App extends React.Component {
     .then(json => console.log(json))
   }
 
-  getRoomData = (id) => {
-    fetch(`http://localhost:3000/rooms/${id}`)
-    .then(resp => resp.json())
-    .then(json => {
-      // console.log("json",json)
-      // let users = json
-      this.setState({
-        currentRoom: {
-          room: json.room,
-          users: json.users,
-          messages: json.messages
-        }
+  newMessage = (e, user) => {
+    let rooms = this.state.currentUser.rooms
+    // console.log(rooms.filter(room => room.recipient.id === user.id))
+    let room = rooms.filter(room => room.recipient.id === user.id)[0]
+    // console.log(room)
+    if (room) {
+      window.location = `/inbox/${room.id}`
+    } else {
+      let payload = {user_one: user, user_two: this.state.currentUser}
+      fetch("http://localhost:3000/rooms", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify(payload)
       })
-    })
-  }
-
-  updateAppStateRoom = (newRoom) => {
-    console.log(newRoom)
-    this.setState({
-      currentRoom: {
-        room: newRoom.room,
-        users: newRoom.users,
-        message: newRoom.messages
-      }
-    })
+      .then(resp => resp.json())
+      .then(json => console.log(json))
+    }
   }
 
   render() {
@@ -185,26 +168,20 @@ class App extends React.Component {
             )}/>
             <Route exact path="/profile/edit" render={() => <EditAccountPage user={this.state.currentUser}/>}/>
             <Route exact path="/meet" render={() => <MeetPage users={this.state.users}/>}/>
-            <Route exact path="/profile/matches" render={() => <MatchesPage currentUser={this.state.currentUser} deleteLike={this.deleteLike} />}/>
+            <Route exact path="/profile/matches" render={() => <MatchesPage currentUser={this.state.currentUser} deleteLike={this.deleteLike} newMessage={this.newMessage} />}/>
             <Route exact path="/inbox/:id" render={() => (
                 this.state.currentUser ?
-                  <ActiveConversation 
-                    cableApp={this.props.cableApp}
-                    updateApp={this.updateAppStateRoom}
-                    getRoomData={this.getRoomData}
-                    roomData={this.state.currentRoom}
-                    currentUser={this.state.currentUser}
-                  /> :
+                  <ActiveConversation currentUser={this.state.currentUser} /> :
                 null
               )
             }/>
             <Route exact path="/inbox" render={() => <Inbox user={this.state.currentUser}/> }/>
             <Route exact path="/user/:id" render={(props) => {
               let userId = parseInt(props.location.pathname.split("/")[2])
-              let user = this.state.users.find(u => u.id === userId)
-              return <UserContainer user={user} currentUser={this.state.currentUser} newLike={this.newLike}/>
+              return <UserContainer userId={userId} currentUser={this.state.currentUser} newLike={this.newLike}/>
             }}/>
-  
+            <Route exact path="/404" render={() => <NotFound/> }/>
+            <Redirect to="/404" />
           </Switch>
       </div>
   );

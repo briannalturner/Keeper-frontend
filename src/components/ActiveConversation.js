@@ -1,7 +1,8 @@
 import React from 'react'
-import RoomWebSocket from './RoomWebSocket'
-import AllMessages from './AllMessages'
+// import RoomWebSocket from './RoomWebSocket'
+// import AllMessages from './AllMessages'
 import ChatMessage from './ChatMessage'
+import ActionCable from 'actioncable'
 
 class ActiveConversation extends React.Component {
 
@@ -16,35 +17,53 @@ class ActiveConversation extends React.Component {
     componentDidMount() {
         let html = document.getElementsByTagName('body')[0]
         html.className = "profile-page"
-        if (this.props.currentUser) {
-            console.log(this.props.currentUser)
-            // this.setState({
-            //     messages: currentUser.user_data
-            // })
+        fetch(`http://localhost:3000/rooms/${window.location.href.match(/\d+$/)[0]}`)
+        .then(resp => resp.json())
+        .then(json => this.setState({
+            messages: json.messages
+        }))
+    
+        const cable = ActionCable.createConsumer("ws://localhost:3000/cable")
+        this.sub = cable.subscriptions.create({ channel: 'RoomsChannel', room: window.location.href.match(/\d+$/)[0] }, {
+            received: this.updateMessages
+        })
+    }
+
+    updateMessages = (e) => {
+        // console.log("updatemessages",e.messages[e.messages.length - 1])
+        let message = e.messages[e.messages.length - 1]
+        console.log(this.state.messages, message)
+        if (this.state.messages.slice(-1)[0] === message) {
+            return null
+        } else {
+            let allMessages = this.state.messages
+            allMessages.push(message)
+            this.setState({
+                messages: allMessages
+            })
         }
     }
 
     handleMessageInput = (e) => {
-        this.setState({
-            newMessage: e.target.value
-        })
+        // console.log(e)
+        if (e.target) {
+            this.setState({
+                newMessage: e.target.value
+            })
+        }
     }
 
     submitMessage = (event) => {
         event.preventDefault()
 
-        console.log(this.props.currentUser.user_data.id)
         let payload = {
             message: this.state.newMessage,
             user_id: this.props.currentUser.user_data.id,
-            room_id: this.props.roomData.room.id
+            room_id: window.location.href.match(/\d+$/)[0]
         }
-        
-        this.props.cableApp.cable.send({message: this.state.newMessage, room: this.props.roomData.room.id})
-        
-        this.setState({
-            newMessage: ''
-        })
+
+        // sending message to server
+        this.sub.send({ message: payload, room: parseInt(window.location.href.match(/\d+$/)[0]) })
 
         fetch("http://localhost:3000/room_messages", {
             method: "POST",
@@ -56,13 +75,19 @@ class ActiveConversation extends React.Component {
         })
         .then(resp => resp.json())
         .then(result => {
-            // console.log(result)
-            let chatFeed = document.getElementById('chat-feed')
-            let message = <ChatMessage key={result.id} message={result} currentUser={this.props.currentUser}/>
-            chatFeed.append(message)
-            let messageDiv = document.getElementById('messages')
-            messageDiv.scrollTop = messageDiv.scrollHeight
+            // resetting newMessage
+            this.setState({
+                newMessage: ""
+            })
         })
+    }
+
+    displayMessages = () => {
+        if (this.state.messages) {
+            return this.state.messages.map(message => {
+                return <ChatMessage key={message.id} message={message} currentUser={this.props.currentUser}/>
+            }) 
+        }
     }
 
     render() {
@@ -71,7 +96,14 @@ class ActiveConversation extends React.Component {
                 <h4 className="">Active Conversation</h4>
                 <div>
                     <div id="chat-feed">
-                        <AllMessages room={this.props.roomData} currentUser={this.props.currentUser}/>
+                        <div id="messages">
+                            { this.state.messages ? (
+                                    this.displayMessages()
+                                ) : (
+                                    <h3>This room has no messages yet - be the first to post!</h3>
+                                ) 
+                            }
+                        </div>
                     </div>
                     <form id='chat-form' onSubmit={this.submitMessage}>
                         <textarea type='text' value={this.state.newMessage} placeholder="write a message..." onChange={this.handleMessageInput}></textarea>
@@ -79,12 +111,12 @@ class ActiveConversation extends React.Component {
                         <button type='submit'>Send</button>
                     </form>
                 </div>
-                <RoomWebSocket 
+                {/* <RoomWebSocket 
                     cableApp={this.props.cableApp}
                     updateApp={this.props.updateApp}
                     getRoomData={this.props.getRoomData}
                     currentUser={this.props.currentUser}
-                />
+                /> */}
             </div>
         )
     }

@@ -105,7 +105,7 @@ class NewAccountForm extends React.Component {
 
     render() {
         return (
-            <div className="white-text transbox">
+            <div className="white transbox">
                 <h1>Create an Account</h1>
                 <br></br>
                 <form onSubmit={(e) => this.onFormSubmit(e)}>

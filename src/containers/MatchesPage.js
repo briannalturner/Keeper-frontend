@@ -9,13 +9,16 @@ class MatchesPage extends React.Component {
     }
 
     renderMatches = () => {
-        return this.props.currentUser.matches.map(matchedUser => {
-            console.log("rendering", matchedUser)
-            return <MatchCard user={matchedUser} key={matchedUser.id} deleteLike={this.props.deleteLike}/>
-        })
+        let arr =[]
+        this.props.currentUser.matches.forEach(matchedUser => {
+            // console.log("rendering", matchedUser)
+            arr.push(<MatchCard user={matchedUser} key={matchedUser.id} newMessage={this.props.newMessage} deleteLike={this.props.deleteLike}/>)
+        }) 
+        return arr
     }
 
     render() {
+        console.log(this.props.currentUser)
         return (
             <div className="margins">
                 <h1 className="white-text text-left">My Matches</h1>

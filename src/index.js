@@ -4,11 +4,11 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import actionCable from 'actioncable'
+// import actionCable from 'actioncable'
 
 ReactDOM.render((
   <Router>
-    <Route path="/" render={() => <App cableApp={CableApp}/>} />
+    <Route path="/" render={() => <App/>} />
   </Router>),
   document.getElementById('root')
 );

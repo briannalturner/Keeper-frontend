@@ -2,15 +2,11 @@ import React from 'react'
 
 class MatchCard extends React.Component {
 
-    onLike = (e) => {
-        console.log(e.target)
-    }
-
     render() {
         return (
             <div className="">
                 <div className="card">
-                    <img  onClick={() => window.location = `/user/${this.props.user.id}`} src={"data:image/png;base64," + this.props.user.image} className="clickable card-img-top" alt="..." />
+                    <img onClick={() => window.location = `/user/${this.props.user.id}`} src={"data:image/png;base64," + this.props.user.image} className="clickable card-img-top" alt="..." />
                     <div className="card-body">
                         <h2 className="">{this.props.user.first_name + " " + this.props.user.last_name}</h2>
                         <div className="">
