@@ -21,8 +21,9 @@ class MatchesPage extends React.Component {
         console.log(this.props.currentUser)
         return (
             <div className="margins">
+                
                 <h1 className="white-text text-left">My Matches</h1>
-                <div className="card-columns">
+                <div className="card-columns column-count-4">
                     {   
                         this.props.currentUser ?
                         this.renderMatches() :

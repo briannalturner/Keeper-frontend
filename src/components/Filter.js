@@ -4,10 +4,14 @@ class Filter extends React.Component {
     
     render() {
         return (
-            <div>
-                <input onChange={this.props.onChange} className="" placeholder="filter by name..."/>
-
+            <div className="row justify-content-center">
+                <div className="col-3">
+                    <div className="form-group">
+                        <input onChange={this.props.onChange} className="form-control" placeholder="filter by name..."/>
+                    </div>
+                </div>
             </div>
+
         )
     }
 

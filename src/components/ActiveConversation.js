@@ -93,24 +93,41 @@ class ActiveConversation extends React.Component {
     render() {
         return (
             <div className="margins">
-                <h4 className="">Active Conversation</h4>
-                <div>
-                    <div id="chat-feed">
-                        <div id="messages">
-                            { this.state.messages ? (
-                                    this.displayMessages()
-                                ) : (
-                                    <h3>This room has no messages yet - be the first to post!</h3>
-                                ) 
-                            }
+                <div className="row">
+                    <div className="col-6 my-4">
+                        Other stuff
+                    </div>
+                    <div className="col-6 my-4">
+                        <div className="row">
+                            <h4 className="align-text-center">Active Conversation</h4>
+                        </div>
+                        <div className="row">
+                            <div>
+                                <div id="chat-feed">
+                                    <div id="messages">
+                                        { this.state.messages ? (
+                                                this.displayMessages()
+                                            ) : (
+                                                <h3>This room has no messages yet - be the first to post!</h3>
+                                            ) 
+                                        }
+                                    </div>
+                                </div>
+                                <form id='chat-form' onSubmit={this.submitMessage}>
+                                    <textarea className="form-control" type='text' value={this.state.newMessage} placeholder="write a message..." onChange={this.handleMessageInput}></textarea>
+                                    <button className="btn btn-dark"type='submit'>Send</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <form id='chat-form' onSubmit={this.submitMessage}>
-                        <textarea type='text' value={this.state.newMessage} placeholder="write a message..." onChange={this.handleMessageInput}></textarea>
-                        <br></br>
-                        <button type='submit'>Send</button>
-                    </form>
+
+
+                    <div>
+
+                    </div>
+                    
                 </div>
+                
                 {/* <RoomWebSocket 
                     cableApp={this.props.cableApp}
                     updateApp={this.props.updateApp}
