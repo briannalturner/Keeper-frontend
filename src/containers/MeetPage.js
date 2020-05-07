@@ -15,7 +15,7 @@ class MeetPage extends React.Component {
 
     componentDidMount() {
         let html = document.getElementsByTagName('body')[0]
-        html.className = "meet-background"
+        html.className="profile-page"
 
         fetch("http://localhost:3000/users")
         .then(resp => resp.json())

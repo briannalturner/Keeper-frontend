@@ -52,6 +52,7 @@ class App extends React.Component {
     .then(resp => resp.json())
     .then(json => {
       localStorage.setItem('jwt', json.token)
+      console.log(json)
       this.setState({
         currentUser: json.user
       })
@@ -105,7 +106,7 @@ class App extends React.Component {
 
     let btn = document.createElement('span')
     btn.innerHTML = `
-      <button type="button" class="btn btn-warning btn-lg tenpx float-middle">Liked</button>
+      <button type="button" class="btn btn-warning btn-lg tenpx float-middle" disabled>Liked</button>
     `
     btn.addEventListener("click", (e) => this.deleteMeetLike(e, likedUser))
     console.log(e.target.parentNode)
@@ -180,6 +181,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.currentUser)
     return (
       <div className="App font-weight-light">
           <Navbar currentUser={this.state.currentUser} logout={this.logout} />

@@ -2,40 +2,49 @@ import React from 'react'
 import MatchCard from '../components/MatchCard'
 import LikedCard from '../components/LikedCard'
 import LikedMeCard from '../components/LikedMeCard'
+import {Link} from 'react-router-dom'
 
 class MatchesPage extends React.Component {
 
     renderMatches = () => {
         let arr =[]
-        this.props.currentUser.matches.forEach(matchedUser => {
-            // console.log("rendering", matchedUser)
-            arr.push(<MatchCard user={matchedUser} key={matchedUser.id} newMessage={this.props.newMessage} deleteLike={this.props.deleteLike}/>)
-        }) 
-        return arr
+        if (this.props.currentUser.matches) {
+            this.props.currentUser.matches.forEach(matchedUser => {
+                // console.log("rendering", matchedUser)
+                arr.push(<MatchCard user={matchedUser} key={matchedUser.id} newMessage={this.props.newMessage} deleteLike={this.props.deleteLike}/>)
+            }) 
+            return arr
+        }
     }
 
     renderLiked = () => {
         let arr =[]
-        this.props.currentUser.likees.forEach(matchedUser => {
-            // console.log("rendering", matchedUser)
-            arr.push(<LikedCard user={matchedUser} key={matchedUser.id} newMessage={this.props.newMessage} deleteLike={this.props.deleteLike}/>)
-        }) 
-        return arr
+        if (this.props.currentUser.likees) {
+            this.props.currentUser.likees.forEach(matchedUser => {
+                // console.log("rendering", matchedUser)
+                arr.push(<LikedCard user={matchedUser} key={matchedUser.id} newMessage={this.props.newMessage} deleteLike={this.props.deleteLike}/>)
+            }) 
+            return arr
+        }
     }
 
     renderLikedMe = () => {
         let arr =[]
-        this.props.currentUser.likers.forEach(matchedUser => {
-            // console.log("rendering", matchedUser)
-            arr.push(<LikedMeCard user={matchedUser} key={matchedUser.id} newMessage={this.props.newMessage} newLike={this.props.newLike}/>)
-        }) 
-        return arr
+        if (this.props.currentUser.likers) {
+            this.props.currentUser.likers.forEach(matchedUser => {
+                // console.log("rendering", matchedUser)
+                arr.push(<LikedMeCard user={matchedUser} key={matchedUser.id} newMessage={this.props.newMessage} newLike={this.props.newLike}/>)
+            }) 
+            return arr
+        }
     }
 
     render() {
         console.log(this.props.currentUser)
         return (
             <div className="margins my-4 mx-3">
+                <h4 className="ml-2 text-left"><Link to="/profile" className="inactive" activeClassName="active" >&lt;&lt; back to profile</Link></h4>
+                <br></br>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="home" aria-selected="true">My Matches</a>

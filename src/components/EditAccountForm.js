@@ -1,4 +1,5 @@
 import React from 'react'
+// import { Redirect } from 'react-router-dom'
 
 class EditAccountForm extends React.Component {
 
@@ -25,21 +26,25 @@ class EditAccountForm extends React.Component {
     componentDidMount() {
         let html = document.getElementsByTagName('body')[0]
         html.className = "slytherin-background"
-        if (this.props.user) {
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps.user)
+        if (nextProps.user) {
             this.setState({
-                firstName: this.props.user.user_data.first_name,
-                lastName: this.props.user.user_data.last_name,
-                gender: this.props.user.user_data.gender,
-                birthdate: this.props.user.user_data.birthdate,
-                likesWomen: this.props.user.user_data.likesWomen,
-                likesMen: this.props.user.user_data.likesMen,
-                likesOther: this.props.user.user_data.likesOther,
-                username: this.props.user.user_data.username,
-                password: this.props.user.user_data.password,
-                image: this.props.user.user_data.image,
-                orientation: this.props.user.user_data.orientation,
-                bio: this.props.user.user_data.bio,
-                asexual: this.props.user.user_data.asexual
+                firstName: nextProps.user.user_data.first_name,
+                lastName: nextProps.user.user_data.last_name,
+                gender: nextProps.user.user_data.gender,
+                birthdate: nextProps.user.user_data.birthdate,
+                likesWomen: nextProps.user.user_data.likesWomen,
+                likesMen: nextProps.user.user_data.likesMen,
+                likesOther: nextProps.user.user_data.likesOther,
+                username: nextProps.user.user_data.username,
+                password: nextProps.user.user_data.password,
+                image: nextProps.user.user_data.image,
+                orientation: nextProps.user.user_data.orientation,
+                bio: nextProps.user.user_data.bio,
+                asexual: nextProps.user.user_data.asexual
             })
         }
     }
@@ -76,6 +81,7 @@ class EditAccountForm extends React.Component {
             })
             .then(json => {
                 console.log(json)
+                window.location = "/profile"
             })
         }
     }
@@ -94,7 +100,7 @@ class EditAccountForm extends React.Component {
     }
 
     onChangeImage = (e) => {
-        console.log("file to upload:", e.target.files[0])
+        // console.log("file to upload:", e.target.files[0])
         let file = e.target.files[0]
 
         if (file) {
@@ -110,7 +116,7 @@ class EditAccountForm extends React.Component {
             image: btoa(binaryString)
         })
         const preview = document.getElementById('profile-picture')
-        console.log(btoa(binaryString))
+        // console.log(btoa(binaryString))
         preview.src = "data:image/png;base64," + btoa(binaryString)
     }
 
@@ -148,72 +154,78 @@ class EditAccountForm extends React.Component {
 
     render() {
         return (
-            <div className="white-text transbox">
-                <h1>Edit Profile</h1>
-                <br></br>
-                {
-                    this.props.user ?
-                    <form onSubmit={(e) => this.onFormSubmit(e)}>
-                        <h2>Who are you interested in meeting?</h2>
-                        <div className="form-check form-check-inline">
-                            <input onChange={(e) => this.onChangeBoolean(e)} name="likesWomen" className="form-check-input" type="checkbox" value="Women"/>
-                            <label className="form-check-label">Women</label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                            <input onChange={(e) => this.onChangeBoolean(e)} name="likesMen" className="form-check-input" type="checkbox" value="Men"/>
-                            <label className="form-check-label">Men</label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                            <input onChange={(e) => this.onChangeBoolean(e)} name="likesOther" className="form-check-input" type="checkbox" value="Other"/>
-                            <label className="form-check-label">Other</label>
-                        </div><br></br><br></br><br></br>
-                    <h2>Personal Information</h2>
-                        <div className="form-row">
-                            <div className="col-md-3">
-                                <label>First Name</label>
-                                <input onChange={(e) => this.onChange(e)} value={this.props.user.user_data.first_name} type="text" name="firstName" className="form-control" placeholder="First name"/>
+            <div className="m-5">
+                <div className="white-text row">
+                    <div className="col-12">
+                        <h1>Edit Profile</h1>
+                    </div>
+                </div>
+                <div className="white-text row">
+                    <div className="col-12">
+                    {
+                        this.props.user ?
+                        <form onSubmit={(e) => this.onFormSubmit(e)}>
+                            <h2>Who are you interested in meeting?</h2>
+                            <div className="form-check form-check-inline">
+                                <input onChange={(e) => this.onChangeBoolean(e)} name="likesWomen" className="form-check-input" type="checkbox" value="Women"/>
+                                <label className="form-check-label">Women</label>
                             </div>
-                            <div className="col-md-3">
-                                <label>Last Name</label>
-                                <input onChange={(e) => this.onChange(e)} value={this.props.user.user_data.last_name} type="text" name="lastName" className="form-control" placeholder="Last name"/>
+                            <div className="form-check form-check-inline">
+                                <input onChange={(e) => this.onChangeBoolean(e)} name="likesMen" className="form-check-input" type="checkbox" value="Men"/>
+                                <label className="form-check-label">Men</label>
                             </div>
-                            <div className="form-row">
-                                <div className="col-md">
-                                    <label>Gender</label>
-                                    {this.genderSelect()}
+                            <div className="form-check form-check-inline">
+                                <input onChange={(e) => this.onChangeBoolean(e)} name="likesOther" className="form-check-input" type="checkbox" value="Other"/>
+                                <label className="form-check-label">Other</label>
+                            </div><br></br><br></br><br></br>
+                        <h2>Personal Information</h2>
+                            <div className="form-row justify-content-center my-2">
+                                <div className="col-md-3">
+                                    <label>First Name</label>
+                                    <input onChange={(e) => this.onChange(e)} value={this.props.user.user_data.first_name} type="text" name="firstName" className="form-control" placeholder="First name"/>
                                 </div>
-                                <div className="col-md">
-                                    <label>Birthday</label>
-                                    <input onChange={(e) => this.onChange(e)} value={this.props.user.user_data.birthdate} name="birthdate" className="form-control" type="date"/>
+                                <div className="col-md-3">
+                                    <label>Last Name</label>
+                                    <input onChange={(e) => this.onChange(e)} value={this.props.user.user_data.last_name} type="text" name="lastName" className="form-control" placeholder="Last name"/>
+                                </div>
+                                <div className="form-row">
+                                    <div className="col-md">
+                                        <label>Gender</label>
+                                        {this.genderSelect()}
+                                    </div>
+                                    <div className="col-md">
+                                        <label>Birthday</label>
+                                        <input onChange={(e) => this.onChange(e)} value={this.props.user.user_data.birthdate} name="birthdate" className="form-control" type="date"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <br></br>
-                        <h2>Build Your Profile</h2>
-                        <br></br>
-                            <img alt="" id="profile-picture" src={"data:image/png;base64," + this.props.user.user_data.image}/>
-                            <br></br>
-                        <div onChange={(e) => this.onChangeImage(e)} className="form-row">
-                            <input name="image" id="file" accept=".jpg, .jpeg, .png" type="file"/>
-                        </div>
-                        <br></br>
-                        <div className="form-row">
-                            <div className="col-md-4">
-                                <label>Orientation</label>
-                                <input onChange={(e) => this.onChange(e)} value={this.props.user.user_data.orientation} name="orientation" type="text" className="form-control" placeholder="Orientation"/>
+                            <div className="form-row justify-content-center">
+                                <div className="col-md-4">
+                                    <label>Orientation</label>
+                                    <input onChange={(e) => this.onChange(e)} value={this.props.user.user_data.orientation} name="orientation" type="text" className="form-control" placeholder="Orientation"/>
+                                </div>
                             </div>
-                        </div><br></br>
-                        <div className="form-row">
-                            <div className="col-md-8">
-                                <textarea onChange={(e) => this.onChange(e)} value={this.props.user.user_data.bio} name="bio" className="form-control" placeholder="write a little about yourself..."></textarea>
+                            <div className="form-row justify-content-center">
+                                <div className="col-md-8">
+                                    <label>Bio</label>
+                                    <textarea onChange={(e) => this.onChange(e)} value={this.props.user.user_data.bio} name="bio" className="form-control" placeholder="write a little about yourself..."></textarea>
+                                </div>
                             </div>
-                        </div><br></br>
-                        <button type="submit" className="rounded btn-rounded">Submit</button>
-                    </form>
-                    :
-                    null
-                }
+                            <div>
+                                <img alt="" className="img-thumbnail my-3" id="profile-picture" src={"data:image/png;base64," + this.props.user.user_data.image}/>
+                                <div onChange={(e) => this.onChangeImage(e)} className="form-row justify-content-center  ml-5 pl-5 my-2">
+                                    <input className="" name="image" id="file" accept=".jpg, .jpeg, .png" type="file"/>
+                                </div>
+                            </div>
+                            <button type="submit" className="rounded btn-rounded my-4">Submit</button>
+                        </form>
+                        :
+                        null
+                    }
+                    </div>
+                </div>
             </div>
+
         )
     }
 }

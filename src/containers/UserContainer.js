@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 class UserContainer extends React.Component {
 
@@ -26,7 +27,7 @@ class UserContainer extends React.Component {
             return "Hufflepuff values hard work, patience, justice, and loyalty. The house mascot is the badger, and canary yellow and black are its colours. Hufflepuff corresponds roughly to the element of earth."
         } else if (this.state.user.house === "Ravenclaw") {
             return "Ravenclaw values intelligence, learning, and wit.The house mascot is an eagle and the house colours are blue and silver. Ravenclaw corresponds roughly to the element of air."
-        } else if (this.state.user.house === "Ravenclaw") {
+        } else if (this.state.user.house === "Slytherin") {
             return "Slytherin values ambition, cunning, leadership, and resourcefulness; the Sorting Hat said in Harry Potter and the Philosopher's Stone that Slytherins will do anything to get their way. The house mascot of Slytherin is the serpent, and the house colours are green and silver. Slytherin corresponds roughly to the element of water."
         } else {
             return null
@@ -40,7 +41,9 @@ class UserContainer extends React.Component {
                     this.state.user && this.props.currentUser ?
                     <div>
                         <div className="row">
+
                             <div className="col-4 p-5">
+                                <h4 className="ml-4 text-left"><Link to="/meet" className="inactive" activeClassName="active" >&lt;&lt; back to meet page</Link></h4>
                                 <img alt="" className="float-middle rounded profile-main-pic" src={"data:image/png;base64," + this.state.user.image}/>
                                 <div className="ml-4 mt-1 text-left">
                                     <hr></hr>
@@ -51,13 +54,13 @@ class UserContainer extends React.Component {
                                 </div>
                             </div>
                             <div className="col-8 pt-5 pr-5 text-left">
-                                <h1>{this.state.user.first_name + " " + this.state.user.last_name}</h1>
+                                <h1><strong>{this.state.user.first_name + " " + this.state.user.last_name}</strong></h1>
                                 <hr></hr>
                                 <p>{this.houseDescription()}</p>
                                 <p><strong>Bio:</strong> {this.state.user.bio}</p>
                                 <div>
                                     <button className="btn btn-warning btn-lg tenpx float-middle" onClick={(e) => this.props.newMessage(e, this.state.user)}>Message</button>
-                                    {this.props.currentUser.likees.find(likee => likee.id === this.state.user.id) ? <button type="button" className="btn btn-warning btn-lg tenpx float-middle" onClick={(e) => this.props.deleteMeetLike(e, this.state.user)} >Liked</button> : <button className="btn btn-warning btn-lg tenpx float-middle" onClick={(e) => this.props.newLike(e, this.state.user)}>Like</button> }
+                                    {this.props.currentUser.likees.find(likee => likee.id === this.state.user.id) ? <button type="button" className="btn btn-warning btn-lg tenpx float-middle" onClick={(e) => this.props.deleteMeetLike(e, this.state.user)} disabled>Liked</button> : <button className="btn btn-warning btn-lg tenpx float-middle" onClick={(e) => this.props.newLike(e, this.state.user)}>Like</button> }
                                 </div>
                             </div>
                         </div>

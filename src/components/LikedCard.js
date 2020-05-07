@@ -5,7 +5,7 @@ class LikedCard extends React.Component {
     render() {
         return (
             <div className="">
-                <div className="card">
+                <div className="card card-grow">
                     <img onClick={() => window.location = `/user/${this.props.user.id}`} src={"data:image/png;base64," + this.props.user.image} className="clickable card-img-top" alt="..." />
                     <div className="card-body">
                         <h2 className="">{this.props.user.first_name + " " + this.props.user.last_name}</h2>
