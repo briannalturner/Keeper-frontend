@@ -14,7 +14,6 @@ import UserContainer from './containers/UserContainer'
 import ActiveConversation from './components/ActiveConversation'
 import NotFound from './components/NotFound'
 
-
 class App extends React.Component {
 
   constructor() {
@@ -104,11 +103,12 @@ class App extends React.Component {
     .then(resp => resp.json())
     .then(json => console.log(json))
 
-    let btn = document.createElement('div')
+    let btn = document.createElement('span')
     btn.innerHTML = `
-      <button type="button" class="btn btn-outline-danger float-left btn-lg" disabled>Liked</button>
+      <button type="button" class="btn btn-warning btn-lg tenpx float-middle">Liked</button>
     `
-    console.log(e.target.parentNode.parentNode)
+    btn.addEventListener("click", (e) => this.deleteMeetLike(e, likedUser))
+    console.log(e.target.parentNode)
     e.target.parentNode.append(btn)
     e.target.remove()
   }
@@ -126,6 +126,30 @@ class App extends React.Component {
     })
     .then(resp => resp.json())
     .then(json => console.log(json))
+    e.target.parentNode.parentNode.parentNode.remove()
+  }
+
+  deleteMeetLike = (e, likedUser) => {
+    e.preventDefault()
+    let payload = {likee_id: likedUser.id, liker_id: this.state.currentUser.user_data.id}
+    fetch("http://localhost:3000/likes", {
+      method: "DELETE",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(resp => resp.json())
+    .then(json => console.log(json))
+    let btn = document.createElement('span')
+    btn.innerHTML = `
+      <button type="button" class="btn btn-warning btn-lg tenpx float-middle">Like</button>
+    `
+    btn.addEventListener("click", (e) => this.newLike(e, likedUser))
+    console.log(e.target)
+    e.target.parentNode.append(btn)
+    e.target.remove()
   }
 
   newMessage = (e, user) => {
@@ -136,17 +160,22 @@ class App extends React.Component {
     if (room) {
       window.location = `/inbox/${room.id}`
     } else {
-      let payload = {user_one: user, user_two: this.state.currentUser}
+      let user_one_id = user.id
+      let user_two_id = this.state.currentUser.user_data.id
+      let payload = {user_one_id: user_one_id, user_two_id: user_two_id}
+      console.log(payload)
       fetch("http://localhost:3000/rooms", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
+          "Accept": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(payload)
       })
       .then(resp => resp.json())
-      .then(json => console.log(json))
+      .then(json => {
+        console.log(json)
+      })
     }
   }
 
@@ -168,7 +197,7 @@ class App extends React.Component {
             )}/>
             <Route exact path="/profile/edit" render={() => <EditAccountPage user={this.state.currentUser}/>}/>
             <Route exact path="/meet" render={() => <MeetPage users={this.state.users}/>}/>
-            <Route exact path="/profile/matches" render={() => <MatchesPage currentUser={this.state.currentUser} deleteLike={this.deleteLike} newMessage={this.newMessage} />}/>
+            <Route exact path="/profile/matches" render={() => <MatchesPage currentUser={this.state.currentUser} deleteLike={this.deleteLike} newLike={this.newLike} newMessage={this.newMessage} />}/>
             <Route exact path="/inbox/:id" render={() => (
                 this.state.currentUser ?
                   <ActiveConversation currentUser={this.state.currentUser} /> :
@@ -178,7 +207,7 @@ class App extends React.Component {
             <Route exact path="/inbox" render={() => <Inbox user={this.state.currentUser}/> }/>
             <Route exact path="/user/:id" render={(props) => {
               let userId = parseInt(props.location.pathname.split("/")[2])
-              return <UserContainer userId={userId} currentUser={this.state.currentUser} newLike={this.newLike}/>
+              return <UserContainer userId={userId} currentUser={this.state.currentUser} deleteMeetLike={this.deleteMeetLike} newMessage={this.newMessage} newLike={this.newLike}/>
             }}/>
             <Route exact path="/404" render={() => <NotFound/> }/>
             <Redirect to="/404" />

@@ -1,12 +1,9 @@
 import React from 'react'
 import MatchCard from '../components/MatchCard'
+import LikedCard from '../components/LikedCard'
+import LikedMeCard from '../components/LikedMeCard'
 
 class MatchesPage extends React.Component {
-
-    componentDidMount() {
-        let html = document.getElementsByTagName('body')[0]
-        html.className = "profile-page"
-    }
 
     renderMatches = () => {
         let arr =[]
@@ -17,18 +14,68 @@ class MatchesPage extends React.Component {
         return arr
     }
 
+    renderLiked = () => {
+        let arr =[]
+        this.props.currentUser.likees.forEach(matchedUser => {
+            // console.log("rendering", matchedUser)
+            arr.push(<LikedCard user={matchedUser} key={matchedUser.id} newMessage={this.props.newMessage} deleteLike={this.props.deleteLike}/>)
+        }) 
+        return arr
+    }
+
+    renderLikedMe = () => {
+        let arr =[]
+        this.props.currentUser.likers.forEach(matchedUser => {
+            // console.log("rendering", matchedUser)
+            arr.push(<LikedMeCard user={matchedUser} key={matchedUser.id} newMessage={this.props.newMessage} newLike={this.props.newLike}/>)
+        }) 
+        return arr
+    }
+
     render() {
         console.log(this.props.currentUser)
         return (
-            <div className="margins">
-                
-                <h1 className="white-text text-left">My Matches</h1>
-                <div className="card-columns column-count-4">
-                    {   
-                        this.props.currentUser ?
-                        this.renderMatches() :
-                        null
-                    }
+            <div className="margins my-4 mx-3">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#matches" role="tab" aria-controls="home" aria-selected="true">My Matches</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#liked" role="tab" aria-controls="profile" aria-selected="false">People I've Liked</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#likedme" role="tab" aria-controls="contact" aria-selected="false">People Who've Liked Me</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <br></br>
+                    <div class="tab-pane fade show active" id="matches" role="tabpanel" aria-labelledby="home-tab">
+                        <div className="card-columns column-count-4">
+                            {   
+                                this.props.currentUser ?
+                                this.renderMatches() :
+                                null
+                            }
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="liked" role="tabpanel" aria-labelledby="profile-tab">
+                        <div className="card-columns column-count-4">
+                            {   
+                                this.props.currentUser ?
+                                this.renderLiked() :
+                                null
+                            }
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="likedme" role="tabpanel" aria-labelledby="contact-tab">
+                        <div className="card-columns column-count-4">
+                            {   
+                                this.props.currentUser ?
+                                this.renderLikedMe() :
+                                null
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         )

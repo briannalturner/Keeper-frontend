@@ -3,6 +3,7 @@ import React from 'react'
 // import AllMessages from './AllMessages'
 import ChatMessage from './ChatMessage'
 import ActionCable from 'actioncable'
+import { Link } from 'react-router-dom'
 
 class ActiveConversation extends React.Component {
 
@@ -10,7 +11,9 @@ class ActiveConversation extends React.Component {
         super()
         this.state = {
             newMessage: "",
-            messages: []
+            messages: [],
+            room: null,
+            user: null
         }
     }
 
@@ -19,9 +22,15 @@ class ActiveConversation extends React.Component {
         html.className = "profile-page"
         fetch(`http://localhost:3000/rooms/${window.location.href.match(/\d+$/)[0]}`)
         .then(resp => resp.json())
-        .then(json => this.setState({
-            messages: json.messages
-        }))
+        .then(json => {
+            // console.log(json.users.filter(user => user.id !== this.props.currentUser.user_data.id)[0])
+            let user = json.users.filter(user => user.id !== this.props.currentUser.user_data.id)[0]
+            this.setState({
+                messages: json.messages,
+                room: json,
+                user: user
+            })
+        })
     
         const cable = ActionCable.createConsumer("ws://localhost:3000/cable")
         this.sub = cable.subscriptions.create({ channel: 'RoomsChannel', room: window.location.href.match(/\d+$/)[0] }, {
@@ -53,8 +62,8 @@ class ActiveConversation extends React.Component {
         }
     }
 
-    submitMessage = (event) => {
-        event.preventDefault()
+    submitMessage = (e) => {
+        console.log(e.target.parentNode.parentNode)
 
         let payload = {
             message: this.state.newMessage,
@@ -90,21 +99,55 @@ class ActiveConversation extends React.Component {
         }
     }
 
-    render() {
-        return (
-            <div className="margins">
-                <div className="row">
-                    <div className="col-6 my-4">
-                        Other stuff
+    messageCards = () => {
+        let arr = []
+        if (this.props.currentUser) {
+            this.props.currentUser.rooms.forEach(room => {
+                let lastMessage = room.messages[room.messages.length - 1].message
+                let speaker
+                // console.log(room.messages[room.messages.length - 1])
+                if (room.messages[room.messages.length - 1].user_id === this.props.currentUser.user_data.id) {
+                    speaker = {first_name: "You"}
+                } else {
+                    speaker = room.recipient
+                }
+                arr.push(
+                    <div className="card clickable fivepx card-grow" onClick={() => window.location=`/inbox/${room.id}`} key={room.id}>
+                        <div className="card-header">
+                            <h4 className="text-left">{room.recipient.first_name + " " + room.recipient.last_name}</h4>
+                        </div>
+                        <div className="card-body text-left">
+                            {speaker.first_name}: {lastMessage}
+                        </div>
                     </div>
-                    <div className="col-6 my-4">
+                )
+            })
+        }
+        return arr
+    }
+
+    render() {
+        console.log(this.state.room)
+        return (
+            <div className="margins active-conversation">
+            {this.state.user ? 
+                <div className="row">
+                    <div className="col-7 my-4">
                         <div className="row">
-                            <h4 className="align-text-center">Active Conversation</h4>
+                            <h3 className="text-left txt-grow px-4 mx-3"><Link to="/inbox" className="inactive" activeClassName="active">Inbox</Link></h3>
+                        </div>
+                        <div className="overflow-scroll">
+                            {this.messageCards()}
+                        </div>
+                    </div>
+                    <div className="col-5 my-4">
+                        <div className="row">
+                        <h3 className="text-left txt-grow px-3"><Link to={`/user/${this.state.user.id}`} className="inactive" activeClassName="active">{this.state.user.first_name + " " + this.state.user.last_name}</Link></h3>
                         </div>
                         <div className="row">
                             <div>
                                 <div id="chat-feed">
-                                    <div id="messages">
+                                    <div id="messages" className="chat overflow-scroll-chat">
                                         { this.state.messages ? (
                                                 this.displayMessages()
                                             ) : (
@@ -113,9 +156,13 @@ class ActiveConversation extends React.Component {
                                         }
                                     </div>
                                 </div>
-                                <form id='chat-form' onSubmit={this.submitMessage}>
-                                    <textarea className="form-control" type='text' value={this.state.newMessage} placeholder="write a message..." onChange={this.handleMessageInput}></textarea>
-                                    <button className="btn btn-dark"type='submit'>Send</button>
+                                <form id='chat-form'>
+                                    <div className="input-group mb-3">
+                                        <textarea name="message" onChange={(e) => this.handleMessageInput(e)} type="text" className="form-control"/>
+                                        <div className="input-group-prepend" onClick={(e) => this.submitMessage(e)}>
+                                            <button className="btn btn-dark" type="button">Send</button>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -128,6 +175,8 @@ class ActiveConversation extends React.Component {
                     
                 </div>
                 
+            : null
+            }
                 {/* <RoomWebSocket 
                     cableApp={this.props.cableApp}
                     updateApp={this.props.updateApp}

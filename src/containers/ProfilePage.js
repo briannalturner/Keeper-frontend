@@ -8,6 +8,20 @@ class ProfilePage extends React.Component {
         html.className = "plain-page"
     }
 
+    houseDescription = () => {
+        if (this.props.user.user_data.house === "Gryffindor") {
+            return "Gryffindor values courage, bravery, nerve, and chivalry. Gryffindor's mascot is the lion, and its colours are scarlet and gold. Gryffindor corresponds roughly to the element of fire."
+        } else if (this.props.user.user_data.house === "Hufflepuff") {
+            return "Hufflepuff values hard work, patience, justice, and loyalty. The house mascot is the badger, and canary yellow and black are its colours. Hufflepuff corresponds roughly to the element of earth."
+        } else if (this.props.user.user_data.house === "Ravenclaw") {
+            return "Ravenclaw values intelligence, learning, and wit.The house mascot is an eagle and the house colours are blue and silver. Ravenclaw corresponds roughly to the element of air."
+        } else if (this.props.user.user_data.house === "Ravenclaw") {
+            return "Slytherin values ambition, cunning, leadership, and resourcefulness; the Sorting Hat said in Harry Potter and the Philosopher's Stone that Slytherins will do anything to get their way. The house mascot of Slytherin is the serpent, and the house colours are green and silver. Slytherin corresponds roughly to the element of water."
+        } else {
+            return null
+        }
+    }
+
     render() {
         console.log(this.props.user)
         return (
@@ -29,8 +43,8 @@ class ProfilePage extends React.Component {
                             <div className="col-8 pt-5 pr-5 text-left">
                                 <h1>{this.props.user.user_data.first_name + " " + this.props.user.user_data.last_name}</h1>
                                 <hr></hr>
-                                <p>Favorite Quote:</p>
-                                <p>{this.props.user.user_data.bio}</p>
+                                <p>{this.houseDescription()}</p>
+                                <p><strong>Bio:</strong> {this.props.user.user_data.bio}</p>
                                 <div>
 
                                 </div>

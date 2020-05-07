@@ -20,8 +20,8 @@ class HomePage extends React.Component {
                                     <h2><strong>Make The First Move</strong></h2>
                                     <p>Start meeting new people! If you already have an account, sign in to use Keeper.</p>
                                     <span>
-                                        <button className="btn btn-outline-dark tenpx"><strong>Join</strong></button>
-                                        <button className="btn btn-outline-dark tenpx"><strong>Sign In</strong></button>
+                                        <button className="btn btn-outline-dark tenpx" onClick={() => window.location = "/signup"}><strong>Join</strong></button>
+                                        <button className="btn btn-outline-dark tenpx" onClick={() => window.location = "/login"}><strong>Sign In</strong></button>
                                     </span>
                                 </div>
                             </div>
