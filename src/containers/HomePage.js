@@ -1,6 +1,6 @@
 import React from 'react'
-import QuoteContainer from '../components/QuoteContainer'
-import UserDashboard from '../components/UserDashboard'
+// import QuoteContainer from '../components/QuoteContainer'
+// import UserDashboard from '../components/UserDashboard'
 
 class HomePage extends React.Component {
     
@@ -11,10 +11,25 @@ class HomePage extends React.Component {
 
     render() {
         return (
-            <div className="margins">
-                <div>Home Page</div>
-                <QuoteContainer />
-                <UserDashboard />
+            <div>
+                <div className="home-page">
+                    <div className="margins">
+                        <div className="row floating-container">
+                            <div className="col-12 m-auto">
+                                <div className="box p-4">
+                                    <h2><strong>Make The First Move</strong></h2>
+                                    <p>Start meeting new people! If you already have an account, sign in to use Keeper.</p>
+                                    <span>
+                                        <button className="btn btn-outline-dark tenpx"><strong>Join</strong></button>
+                                        <button className="btn btn-outline-dark tenpx"><strong>Sign In</strong></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* <QuoteContainer />
+                <UserDashboard /> */}
             </div>
         )
     }

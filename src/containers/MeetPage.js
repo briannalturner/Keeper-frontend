@@ -15,7 +15,7 @@ class MeetPage extends React.Component {
 
     componentDidMount() {
         let html = document.getElementsByTagName('body')[0]
-        html.className = "profile-page"
+        html.className = "meet-background"
 
         fetch("http://localhost:3000/users")
         .then(resp => resp.json())
@@ -44,9 +44,11 @@ class MeetPage extends React.Component {
 
     render() {
         return (
-            <div className="margins">
-                <Filter onChange={this.onChange} />
-                <div className="card-columns">
+            <div className="">
+                <div className="mt-4">
+                    <Filter onChange={this.onChange} />
+                </div>
+                <div className="card-columns m-4 p-1">
                     {this.generateMeetCards()}
                 </div>
             </div>

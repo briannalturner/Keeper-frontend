@@ -155,7 +155,7 @@ class App extends React.Component {
       <div className="App font-weight-light">
           <Navbar currentUser={this.state.currentUser} logout={this.logout} />
           <Switch>
-            <Route exact path="/" render={() => <HomePage/>}/>
+            <Route exact path="/" render={() => <HomePage currentUser={this.state.currentUser}/>}/>
             <Route exact path="/login" render={() => (
               this.state.currentUser ? <Redirect to="/profile"/> :
               <LoginPage login={this.fetchUser}/>)}

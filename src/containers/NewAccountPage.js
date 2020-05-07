@@ -6,7 +6,7 @@ class NewAccountPage extends React.Component {
     render() {
         return (
             <div className="side-margins">
-                <NewAccountForm login={this.props.login}/>
+                <NewAccountForm login={this.props.login} currentUser={this.props.currentUser}/>
             </div>
         )
     }

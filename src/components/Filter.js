@@ -5,8 +5,8 @@ class Filter extends React.Component {
     render() {
         return (
             <div>
-                <input onChange={this.props.onChange} className="filter" placeholder="search users..."/>
-                <br></br><br></br>
+                <input onChange={this.props.onChange} className="" placeholder="filter by name..."/>
+
             </div>
         )
     }
