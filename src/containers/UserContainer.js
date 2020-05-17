@@ -66,7 +66,10 @@ class UserContainer extends React.Component {
                         </div>
                         <br></br>
                     </div> :
-                    null
+                    <div>
+                        <br></br>
+                        <h3>You must be logged in to view this page.</h3>
+                    </div>
                 }
             </div>
         )

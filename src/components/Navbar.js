@@ -15,7 +15,7 @@ class Navbar extends React.Component {
                     <span className="navbar-collapse collapse w-100 order-3 dual-collapse2">
                         {this.props.currentUser !== null ? 
                             <span className="navbar-nav ml-auto">
-                                <h4 className="mx-4 my-2 txt-grow">
+                                <h4 className="mx-4 my-2 txt-grow meet-link">
                                     <NavLink className="inactive" activeClassName="active" to="/meet">Meet</NavLink>
                                 </h4>
                                 {/* <span className="tenpx txt-grow">

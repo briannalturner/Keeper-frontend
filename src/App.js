@@ -53,10 +53,12 @@ class App extends React.Component {
     .then(json => {
       localStorage.setItem('jwt', json.token)
       console.log(json)
-      this.setState({
-        currentUser: json.user
-      })
-      window.location = "/profile"
+      if(json.user) {
+        this.setState({
+          currentUser: json.user
+        })
+        window.location = "/profile"
+      }
     })
   }
 
@@ -83,11 +85,13 @@ class App extends React.Component {
     .then(resp => resp.json())
     .then(json => {
       localStorage.setItem('jwt', json.token)
-      console.log("json", json.user[0])
-      this.setState({
-        currentUser: json.user[0]
-      })
-      window.location = "/profile"
+      if (json.user[0]) {
+        console.log("json", json.user[0])
+        this.setState({
+          currentUser: json.user[0]
+        })
+        window.location = "/profile"
+      }
     })
   }
 
@@ -108,7 +112,7 @@ class App extends React.Component {
     btn.innerHTML = `
       <button type="button" class="btn btn-warning btn-lg tenpx float-middle" disabled>Liked</button>
     `
-    btn.addEventListener("click", (e) => this.deleteMeetLike(e, likedUser))
+    // btn.addEventListener("click", (e) => this.deleteMeetLike(e, likedUser))
     console.log(e.target.parentNode)
     e.target.parentNode.append(btn)
     e.target.remove()
