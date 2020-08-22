@@ -1,7 +1,7 @@
 # README
-* Keeper - Frontend *
+### Keeper - Frontend
 
-Keeper is a full stack dating app for Harry Potter enthusiasts. Seeded with a public Harry Potter API, 
+Keeper is a full stack dating app for Harry Potter enthusiasts. Seeded with a public [Harry Potter API](https://www.potterapi.com/), 
 Keeper features randomly generated profiles for each character in the Harry Potter series.
 
 Users can create edit and delete their profile, browse other profiles, chat in real-time with other users 
