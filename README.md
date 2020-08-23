@@ -10,5 +10,6 @@ and like or match with other users.
 
 ## Technology Used:
 - WebSockets are used for the real-time chat feature.
+- Cypress for testing.
 - Bootstrap is used for the styling, along with some custom CSS.
 - JavaScript/React for frontend and Ruby/Rails for backend
