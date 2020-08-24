@@ -13,6 +13,7 @@ import Inbox from './containers/Inbox'
 import UserContainer from './containers/UserContainer'
 import ActiveConversation from './components/ActiveConversation'
 import NotFound from './components/NotFound'
+import './custom.scss'
 
 class App extends React.Component {
 
