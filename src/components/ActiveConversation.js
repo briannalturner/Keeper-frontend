@@ -161,7 +161,7 @@ class ActiveConversation extends React.Component {
                                         { this.state.messages ? (
                                                 this.displayMessages()
                                             ) : (
-                                                <h3>This room has no messages yet - be the first to post!</h3>
+                                                <h3>This room has no messages yet - be the first to reach out!</h3>
                                             ) 
                                         }
                                     </div>
