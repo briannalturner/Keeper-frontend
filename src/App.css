@@ -221,6 +221,11 @@ html {
   min-width: 100px;
 }
 
+.row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
 .txt-grow {
   transition: all 400ms;
 }

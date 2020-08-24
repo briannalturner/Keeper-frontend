@@ -29,16 +29,16 @@ class EditAccountForm extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps.user)
-        if (nextProps.user) {
+        console.log('nextProps', nextProps.user)
+        // if (nextProps.user) {
             this.setState({
                 firstName: nextProps.user.user_data.first_name,
                 lastName: nextProps.user.user_data.last_name,
                 gender: nextProps.user.user_data.gender,
                 birthdate: nextProps.user.user_data.birthdate,
-                likesWomen: nextProps.user.user_data.likesWomen,
-                likesMen: nextProps.user.user_data.likesMen,
-                likesOther: nextProps.user.user_data.likesOther,
+                likesWomen: nextProps.user.user_data.likes_women,
+                likesMen: nextProps.user.user_data.likes_men,
+                likesOther: nextProps.user.user_data.likes_other,
                 username: nextProps.user.user_data.username,
                 password: nextProps.user.user_data.password,
                 image: nextProps.user.user_data.image,
@@ -46,7 +46,7 @@ class EditAccountForm extends React.Component {
                 bio: nextProps.user.user_data.bio,
                 asexual: nextProps.user.user_data.asexual
             })
-        }
+        // }
     }
 
     onFormSubmit = (e) => {
@@ -87,6 +87,7 @@ class EditAccountForm extends React.Component {
     }
 
     onChange = (e) => {
+        console.log(e.target.name)
         this.setState({
             [e.target.name]: e.target.value
         })
@@ -165,7 +166,7 @@ class EditAccountForm extends React.Component {
                     {
                         this.props.user ?
                         <form onSubmit={(e) => this.onFormSubmit(e)}>
-                            <h2>Who are you interested in meeting?</h2>
+                            {/* <h2>Who are you interested in meeting?</h2>
                             <div className="form-check form-check-inline">
                                 <input onChange={(e) => this.onChangeBoolean(e)} name="likesWomen" className="form-check-input" type="checkbox" value="Women"/>
                                 <label className="form-check-label">Women</label>
@@ -177,16 +178,17 @@ class EditAccountForm extends React.Component {
                             <div className="form-check form-check-inline">
                                 <input onChange={(e) => this.onChangeBoolean(e)} name="likesOther" className="form-check-input" type="checkbox" value="Other"/>
                                 <label className="form-check-label">Other</label>
-                            </div><br></br><br></br><br></br>
-                        <h2>Personal Information</h2>
+                            </div><br></br><br></br><br></br> */}
+                        {/* <h2>Personal Information</h2> */}
+                        <br></br>
                             <div className="form-row justify-content-center my-2">
                                 <div className="col-md-3">
                                     <label>First Name</label>
-                                    <input onChange={(e) => this.onChange(e)} value={this.props.user.user_data.first_name} type="text" name="firstName" className="form-control" placeholder="First name"/>
+                                    <input onChange={(e) => this.onChange(e)} value={this.state.firstName} type="text" name="firstName" className="form-control" placeholder="First name"/>
                                 </div>
                                 <div className="col-md-3">
                                     <label>Last Name</label>
-                                    <input onChange={(e) => this.onChange(e)} value={this.props.user.user_data.last_name} type="text" name="lastName" className="form-control" placeholder="Last name"/>
+                                    <input onChange={(e) => this.onChange(e)} value={this.state.lastName} type="text" name="lastName" className="form-control" placeholder="Last name"/>
                                 </div>
                                 <div className="form-row">
                                     <div className="col-md">
@@ -195,24 +197,24 @@ class EditAccountForm extends React.Component {
                                     </div>
                                     <div className="col-md">
                                         <label>Birthday</label>
-                                        <input onChange={(e) => this.onChange(e)} value={this.props.user.user_data.birthdate} name="birthdate" className="form-control" type="date"/>
+                                        <input onChange={(e) => this.onChange(e)} value={this.state.birthdate} name="birthdate" className="form-control" type="date"/>
                                     </div>
                                 </div>
                             </div>
                             <div className="form-row justify-content-center">
                                 <div className="col-md-4">
                                     <label>Orientation</label>
-                                    <input onChange={(e) => this.onChange(e)} value={this.props.user.user_data.orientation} name="orientation" type="text" className="form-control" placeholder="Orientation"/>
+                                    <input onChange={(e) => this.onChange(e)} value={this.state.orientation} name="orientation" type="text" className="form-control" placeholder="Orientation"/>
                                 </div>
                             </div>
                             <div className="form-row justify-content-center">
                                 <div className="col-md-8">
                                     <label>Bio</label>
-                                    <textarea onChange={(e) => this.onChange(e)} value={this.props.user.user_data.bio} name="bio" className="form-control" placeholder="write a little about yourself..."></textarea>
+                                    <textarea onChange={(e) => this.onChange(e)} value={this.state.bio} name="bio" className="form-control" placeholder="write a little about yourself..."></textarea>
                                 </div>
                             </div>
                             <div>
-                                <img alt="" className="img-thumbnail my-3" id="profile-picture" src={"data:image/png;base64," + this.props.user.user_data.image}/>
+                                <img alt="" className="img-thumbnail my-3" id="profile-picture" src={"data:image/png;base64," + this.state.image}/>
                                 <div onChange={(e) => this.onChangeImage(e)} className="form-row justify-content-center  ml-5 pl-5 my-2">
                                     <input className="" name="image" id="file" accept=".jpg, .jpeg, .png" type="file"/>
                                 </div>
