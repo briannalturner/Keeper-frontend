@@ -30,7 +30,7 @@ class ProfilePage extends React.Component {
                     this.props.user.user_data ?
                     <div>
                         <div className="row">
-                            <div className="col-4 p-5">
+                            <div className="col p-3">
                                 <img alt="" className="float-middle rounded profile-main-pic" src={"data:image/png;base64," + this.props.user.user_data.image}/>
                                 <div className="ml-4 mt-1 text-left">
                                     {this.props.user.user_data.house !== "" ? 
@@ -45,7 +45,7 @@ class ProfilePage extends React.Component {
                                     <p>Orientation: {this.props.user.user_data.orientation.charAt(0).toUpperCase() + this.props.user.user_data.orientation.slice(1)}</p>
                                 </div>
                             </div>
-                            <div className="col-8 pt-5 pr-5 text-left">
+                            <div className="col p-5 text-left">
                                 <h1><strong>{this.props.user.user_data.first_name + " " + this.props.user.user_data.last_name}</strong></h1>
                                 <hr></hr>
                                 <p>{this.houseDescription()}</p>

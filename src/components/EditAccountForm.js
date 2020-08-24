@@ -166,7 +166,7 @@ class EditAccountForm extends React.Component {
                     {
                         this.props.user ?
                         <form onSubmit={(e) => this.onFormSubmit(e)}>
-                            <h2>Who are you interested in meeting?</h2>
+                            {/* <h2>Who are you interested in meeting?</h2>
                             <div className="form-check form-check-inline">
                                 <input onChange={(e) => this.onChangeBoolean(e)} name="likesWomen" className="form-check-input" type="checkbox" value="Women"/>
                                 <label className="form-check-label">Women</label>
@@ -178,8 +178,9 @@ class EditAccountForm extends React.Component {
                             <div className="form-check form-check-inline">
                                 <input onChange={(e) => this.onChangeBoolean(e)} name="likesOther" className="form-check-input" type="checkbox" value="Other"/>
                                 <label className="form-check-label">Other</label>
-                            </div><br></br><br></br><br></br>
-                        <h2>Personal Information</h2>
+                            </div><br></br><br></br><br></br> */}
+                        {/* <h2>Personal Information</h2> */}
+                        <br></br>
                             <div className="form-row justify-content-center my-2">
                                 <div className="col-md-3">
                                     <label>First Name</label>
