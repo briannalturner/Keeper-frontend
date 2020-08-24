@@ -48,7 +48,7 @@ class MeetPage extends React.Component {
                 <div className="mt-4">
                     <Filter onChange={this.onChange} />
                 </div>
-                <div className="card-columns column-count-4 m-4 p-1">
+                <div className="card-columns m-1">
                     {this.generateMeetCards()}
                 </div>
             </div>

@@ -8,7 +8,7 @@ class MeetCard extends React.Component {
 
     render() {
         return (
-            <div className="clickable card-grow" onClick={() => window.location = `/user/${this.props.user.id}`}>
+            <div className="clickable card-grow m-1" onClick={() => window.location = `/user/${this.props.user.id}`}>
                 <div className="card border-0" style={{width: "18rem"}}>
                     <img src={"data:image/png;base64," + this.props.user.image} className="card-img-top border-radius" alt="..." />
                     <div className="card-body">

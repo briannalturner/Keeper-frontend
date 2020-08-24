@@ -112,24 +112,37 @@ class ActiveConversation extends React.Component {
                 if (room.id === parseInt(window.location.href.match(/\d+$/)[0])) {
 
                 } else {
-                    let lastMessage = room.messages[room.messages.length - 1].message
-                    let speaker
-                    // console.log(room.messages[room.messages.length - 1])
-                    if (room.messages[room.messages.length - 1].user_id === this.props.currentUser.user_data.id) {
-                        speaker = {first_name: "You"}
+                    if (room.messages[room.messages.length - 1]) {
+                        let lastMessage = room.messages[room.messages.length - 1].message
+                        let speaker
+                        // console.log(room.messages[room.messages.length - 1])
+                        if (room.messages[room.messages.length - 1].user_id === this.props.currentUser.id) {
+                            speaker = {first_name: "You"}
+                        } else {
+                            speaker = room.recipient
+                        }
+                        arr.push(
+                            <div className="card clickable fivepx" onClick={() => window.location=`/inbox/${room.id}`} key={room.id}>
+                                <div className="card-header">
+                                    <h4 className="text-left"><strong>{room.recipient.first_name + " " + room.recipient.last_name}</strong></h4>
+                                </div>
+                                <div className="card-body text-left">
+                                    {speaker.first_name}: {lastMessage}
+                                </div>
+                            </div>
+                        )
                     } else {
-                        speaker = room.recipient
+                        arr.push(
+                            <div className="card clickable fivepx" onClick={() => window.location=`/inbox/${room.id}`} key={room.id}>
+                                <div className="card-header">
+                                    <h4 className="text-left"><strong>{room.recipient.first_name + " " + room.recipient.last_name}</strong></h4>
+                                </div>
+                                <div className="card-body text-left">
+                                    No messages yet...
+                                </div>
+                            </div>
+                        )
                     }
-                    arr.push(
-                        <div className="card clickable fivepx card-grow" onClick={() => window.location=`/inbox/${room.id}`} key={room.id}>
-                            <div className="card-header">
-                                <h4 className="text-left">{room.recipient.first_name + " " + room.recipient.last_name}</h4>
-                            </div>
-                            <div className="card-body text-left">
-                                {speaker.first_name}: {lastMessage}
-                            </div>
-                        </div>
-                    )
                 }
             })
         }
@@ -154,11 +167,11 @@ class ActiveConversation extends React.Component {
                         <div className="row">
                         <h3 className="text-left txt-grow px-3"><Link to={`/user/${this.state.user.id}`} className="inactive" activeclassname="active">{this.state.user.first_name + " " + this.state.user.last_name}</Link></h3>
                         </div>
-                        <div className="row">
-                            <div>
+                        <div className="chat overflow-scroll-chat row">
+                            <div className=''>
                                 <div id="chat-feed">
-                                    <div id="messages" className="chat overflow-scroll-chat">
-                                        { this.state.messages ? (
+                                    <div id="messages" className=" ">
+                                        { this.state.messages !== [] ? (
                                                 this.displayMessages()
                                             ) : (
                                                 <h3>This room has no messages yet - be the first to reach out!</h3>
@@ -166,16 +179,16 @@ class ActiveConversation extends React.Component {
                                         }
                                     </div>
                                 </div>
-                                <form id='chat-form'>
-                                    <div className="input-group mb-3">
-                                        <textarea name="message" onChange={(e) => this.handleMessageInput(e)} type="text" id="message" value={this.state.newMessage} className="form-control"/>
-                                        <div className="input-group-prepend" onClick={(e) => this.submitMessage(e)}>
-                                            <button className="btn btn-dark" type="button">Send</button>
-                                        </div>
-                                    </div>
-                                </form>
                             </div>
                         </div>
+                        <form id='chat-form'>
+                            <div className="input-group mb-3">
+                                <textarea name="message" onChange={(e) => this.handleMessageInput(e)} type="text" id="message" value={this.state.newMessage} className="form-control"/>
+                                <div className="input-group-prepend" onClick={(e) => this.submitMessage(e)}>
+                                    <button className="btn btn-dark" type="button">Send</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
 
 

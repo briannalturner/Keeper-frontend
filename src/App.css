@@ -292,7 +292,8 @@ html {
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 
 .chat {
-  max-width: 500px;
+  /* min-width: inherit; */
+  width: inherit;
   border: solid 1px #EEE;
   display: flex;
   flex-direction: column;

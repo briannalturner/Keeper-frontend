@@ -59,7 +59,7 @@ class MatchesPage extends React.Component {
                 <div class="tab-content" id="myTabContent">
                     <br></br>
                     <div class="tab-pane fade show active" id="matches" role="tabpanel" aria-labelledby="home-tab">
-                        <div className="card-columns column-count-4">
+                        <div className="card-columns">
                             {   
                                 this.props.currentUser ?
                                 this.renderMatches() :
@@ -68,7 +68,7 @@ class MatchesPage extends React.Component {
                         </div>
                     </div>
                     <div class="tab-pane fade" id="liked" role="tabpanel" aria-labelledby="profile-tab">
-                        <div className="card-columns column-count-4">
+                        <div className="card-columns">
                             {   
                                 this.props.currentUser ?
                                 this.renderLiked() :
@@ -77,7 +77,7 @@ class MatchesPage extends React.Component {
                         </div>
                     </div>
                     <div class="tab-pane fade" id="likedme" role="tabpanel" aria-labelledby="contact-tab">
-                        <div className="card-columns column-count-4">
+                        <div className="card-columns">
                             {   
                                 this.props.currentUser ?
                                 this.renderLikedMe() :

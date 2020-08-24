@@ -169,7 +169,7 @@ class App extends React.Component {
       let user_one_id = user.id
       let user_two_id = this.state.currentUser.user_data.id
       let payload = {user_one_id: user_one_id, user_two_id: user_two_id}
-      console.log(payload)
+      console.log('payload', payload)
       fetch("http://localhost:3000/rooms", {
         method: "POST",
         headers: {
@@ -177,10 +177,8 @@ class App extends React.Component {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(payload)
-      })
-      .then(resp => resp.json())
-      .then(json => {
-        console.log(json)
+      }).then(resp => resp.json()).then(json => {
+        window.location = '/inbox'
       })
     }
   }
