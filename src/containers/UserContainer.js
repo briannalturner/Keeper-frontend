@@ -42,7 +42,7 @@ class UserContainer extends React.Component {
                     <div>
                         <div className="row">
 
-                            <div className="col-4 p-5">
+                            <div className="col p-5">
                                 <h4 className="ml-4 text-left"><Link to="/meet" className="inactive" activeClassName="active" >&lt;&lt; back to meet page</Link></h4>
                                 <img alt="" className="float-middle rounded profile-main-pic" src={"data:image/png;base64," + this.state.user.image}/>
                                 <div className="ml-4 mt-1 text-left">
@@ -53,7 +53,7 @@ class UserContainer extends React.Component {
                                     <p>Orientation: {this.state.user.orientation.charAt(0).toUpperCase() + this.state.user.orientation.slice(1)}</p>
                                 </div>
                             </div>
-                            <div className="col-8 pt-5 pr-5 text-left">
+                            <div className="col pt-5 pr-5 text-left">
                                 <h1><strong>{this.state.user.first_name + " " + this.state.user.last_name}</strong></h1>
                                 <hr></hr>
                                 <p>{this.houseDescription()}</p>

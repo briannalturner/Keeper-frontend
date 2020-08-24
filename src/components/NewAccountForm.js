@@ -109,19 +109,6 @@ class NewAccountForm extends React.Component {
                 <h1>Create an Account</h1>
                 <br></br>
                 <form onSubmit={(e) => this.onFormSubmit(e)}>
-                    <h2>Who are you interested in meeting?</h2>
-                    <div className="form-check form-check-inline">
-                        <input onChange={(e) => this.onChangeBoolean(e)} name="likesWomen" className="form-check-input" type="checkbox" value="Women"/>
-                        <label className="form-check-label">Women</label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                        <input onChange={(e) => this.onChangeBoolean(e)} name="likesMen" className="form-check-input" type="checkbox" value="Men"/>
-                        <label className="form-check-label">Men</label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                        <input onChange={(e) => this.onChangeBoolean(e)} name="likesOther" className="form-check-input" type="checkbox" value="Other"/>
-                        <label className="form-check-label">Other</label>
-                    </div><br></br><br></br><br></br>
                 <h2>Personal Information</h2>
                     <div className="form-row">
                         <div className="col-md-3">
